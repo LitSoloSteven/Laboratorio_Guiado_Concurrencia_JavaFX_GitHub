@@ -32,7 +32,7 @@ Aplicación JavaFX modular que gestiona **solicitudes de una oficina mediante un
 
 | # | Nombre completo | Usuario de GitHub | Rol | Rama | Responsabilidad |
 |---|-----------------|-------------------|-----|------|-----------------|
-| 1 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-1` | Estación 1 (Thread y Runnable) y módulo CRUD de solicitudes (servicio y pantalla) |
+| 1 | Caleb Tardencilla | CTardencilla | Integrante | `feature/integrante-1` | Estación 1 (Thread y Runnable) y módulo CRUD de solicitudes (servicio y pantalla) |
 | 2 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-2` | Estación 2 (estados de hilos), módulo de monitoreo de hilos y alertas |
 | 3 | _Steven Cuadra_ | _LitSoloSteven_ | _Integrante_ | `feature/Steven` | Estación 3 (sincronización): contadores y repositorio concurrente |
 | 4 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-4` | Estaciones 4 y 5: detención controlada, ventanillas e integración JavaFX |
