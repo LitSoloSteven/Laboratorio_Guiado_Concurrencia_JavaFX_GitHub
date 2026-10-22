@@ -1,0 +1,33 @@
+Sin sincronizar
+Prueba 01: esperado=2000, obtenido=1595, perdidos=405
+Prueba 02: esperado=2000, obtenido=2000, perdidos=0
+Prueba 03: esperado=2000, obtenido=1999, perdidos=1
+Prueba 04: esperado=2000, obtenido=2000, perdidos=0
+Prueba 05: esperado=2000, obtenido=2000, perdidos=0
+Prueba 06: esperado=2000, obtenido=1993, perdidos=7
+Prueba 07: esperado=2000, obtenido=2000, perdidos=0
+Prueba 08: esperado=2000, obtenido=1977, perdidos=23
+Prueba 09: esperado=2000, obtenido=2000, perdidos=0
+Prueba 10: esperado=2000, obtenido=1789, perdidos=211
+Con synchronized
+Prueba 01: esperado=2000, obtenido=2000, perdidos=0
+Prueba 02: esperado=2000, obtenido=2000, perdidos=0
+Prueba 03: esperado=2000, obtenido=2000, perdidos=0
+Prueba 04: esperado=2000, obtenido=2000, perdidos=0
+Prueba 05: esperado=2000, obtenido=2000, perdidos=0
+Prueba 06: esperado=2000, obtenido=2000, perdidos=0
+Prueba 07: esperado=2000, obtenido=2000, perdidos=0
+Prueba 08: esperado=2000, obtenido=2000, perdidos=0
+Prueba 09: esperado=2000, obtenido=2000, perdidos=0
+Prueba 10: esperado=2000, obtenido=2000, perdidos=0
+Con AtomicInteger
+Prueba 01: esperado=2000, obtenido=2000, perdidos=0
+Prueba 02: esperado=2000, obtenido=2000, perdidos=0
+Prueba 03: esperado=2000, obtenido=2000, perdidos=0
+Prueba 04: esperado=2000, obtenido=2000, perdidos=0
+Prueba 05: esperado=2000, obtenido=2000, perdidos=0
+Prueba 06: esperado=2000, obtenido=2000, perdidos=0
+Prueba 07: esperado=2000, obtenido=2000, perdidos=0
+Prueba 08: esperado=2000, obtenido=2000, perdidos=0
+Prueba 09: esperado=2000, obtenido=2000, perdidos=0
+Prueba 10: esperado=2000, obtenido=2000, perdidos=0

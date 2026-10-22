@@ -1,0 +1,4 @@
+Solicitudes=0, ids únicos=0, atendidas=0, duplicados=0
+Solicitudes=1, ids únicos=1, atendidas=1, duplicados=0
+Solicitudes=1000, ids únicos=1000, atendidas=1000, duplicados=0
+Solicitudes=10000, ids únicos=10000, atendidas=10000, duplicados=0

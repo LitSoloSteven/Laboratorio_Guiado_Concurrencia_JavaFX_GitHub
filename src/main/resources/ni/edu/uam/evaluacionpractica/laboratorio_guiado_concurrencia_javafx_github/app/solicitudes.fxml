@@ -22,7 +22,6 @@
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
     </padding>
 
-    <!-- Encabezado de la pantalla -->
     <VBox spacing="3.0">
         <Label text="Gestión de Solicitudes (CRUD)" textFill="#0f172a">
             <font>
@@ -36,7 +35,6 @@
         </Label>
     </VBox>
 
-    <!-- Tarjeta del Formulario de Entrada -->
     <VBox spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 14;">
         <Label text="Datos de la Solicitud" textFill="#334155">
             <font>
@@ -45,19 +43,17 @@
         </Label>
 
         <GridPane hgap="12.0" vgap="10.0">
-            <!-- Fila 1: Solicitante y Prioridad -->
+
             <Label text="Solicitante:" GridPane.columnIndex="0" GridPane.rowIndex="0" textFill="#1e293b" />
             <TextField fx:id="txtSolicitante" promptText="Nombre completo (máx 40 caracteres)" prefHeight="32.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
             <Label text="Prioridad:" GridPane.columnIndex="2" GridPane.rowIndex="0" textFill="#1e293b" />
             <ComboBox fx:id="cmbPrioridad" promptText="Seleccionar..." prefHeight="32.0" prefWidth="180.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
-            <!-- Fila 2: Asunto -->
             <Label text="Asunto:" GridPane.columnIndex="0" GridPane.rowIndex="1" textFill="#1e293b" />
             <TextField fx:id="txtAsunto" promptText="Descripción detallada de la solicitud (máx 80 caracteres)" prefHeight="32.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
         </GridPane>
 
-        <!-- Barra de Botones de Acción -->
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <Button fx:id="btnCrear" text="Crear" onAction="#onCrear" prefHeight="32.0" prefWidth="90.0"
                     style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
@@ -71,7 +67,6 @@
             <Button fx:id="btnLimpiar" text="Limpiar" onAction="#onLimpiar" prefHeight="32.0" prefWidth="90.0"
                     style="-fx-background-color: #e2e8f0; -fx-text-fill: #334155; -fx-cursor: hand;" />
 
-            <!-- Separador flexible -->
             <Pane HBox.hgrow="ALWAYS" />
 
             <Button fx:id="btnCargarEjemplos" text="Cargar 5 Ejemplos" onAction="#onCargarEjemplos" prefHeight="32.0" prefWidth="150.0"
@@ -79,7 +74,6 @@
         </HBox>
     </VBox>
 
-    <!-- Tabla de Solicitudes -->
     <VBox VBox.vgrow="ALWAYS" spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 10;">
         <TableView fx:id="tblSolicitudes" VBox.vgrow="ALWAYS">
             <columns>
@@ -96,7 +90,6 @@
         </TableView>
     </VBox>
 
-    <!-- Barra de Estado / Resumen -->
     <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-background-color: white; -fx-background-radius: 6; -fx-border-color: #cbd5e1; -fx-border-radius: 6; -fx-padding: 8 14;">
         <Label text="Resumen:" textFill="#475569">
             <font>
