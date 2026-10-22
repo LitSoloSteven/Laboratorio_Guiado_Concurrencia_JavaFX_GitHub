@@ -1,9 +1,9 @@
-package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github;
+package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class PrincipalControlador {
     @FXML
     private Label welcomeText;
 
