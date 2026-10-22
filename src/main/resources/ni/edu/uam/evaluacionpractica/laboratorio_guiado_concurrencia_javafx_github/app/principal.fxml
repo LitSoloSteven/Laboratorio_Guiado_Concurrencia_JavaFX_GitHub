@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador.PrincipalControlador">
-    <center>
-        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <tabs>
-                <Tab text="Ventanillas (Concurrencia)">
-                    <content>
-                        <fx:include source="ventanillas.fxml" />
-                    </content>
-                </Tab>
-                <Tab text="Monitor de Hilos">
-                    <content>
-                        <fx:include source="hilos.fxml" />
-                    </content>
-                </Tab>
-                <Tab text="Solicitudes">
-                    <content>
-                        <fx:include source="solicitudes.fxml" />
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
-    </center>
-</BorderPane>
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador.PrincipalControlador">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label text="Laboratorio Concurrencia - Ventanillas">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+
+        <HBox spacing="15.0" alignment="CENTER_LEFT">
+            <children>
+                <Button fx:id="btnIniciar" mnemonicParsing="false" onAction="#iniciarProceso" text="Iniciar Ventanillas" />
+                <Button fx:id="btnDetener" disable="true" mnemonicParsing="false" onAction="#detenerProceso" text="Detener Ventanillas" />
+            </children>
+        </HBox>
+
+        <HBox spacing="40.0">
+            <children>
+                <VBox spacing="5.0">
+                    <children>
+                        <Label text="Estado Global:" textFill="#555555" />
+                        <Label fx:id="etiquetaEstado" text="Detenido">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox spacing="5.0">
+                    <children>
+                        <Label text="Operaciones Completadas:" textFill="#555555" />
+                        <Label fx:id="etiquetaContador" text="0">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <Label text="Área de Registro (Monitor y Eventos):" />
+        <TextArea fx:id="areaRegistro" editable="false" prefHeight="350.0" VBox.vgrow="ALWAYS">
+            <font>
+                <Font name="Monospaced Regular" size="12.0" />
+            </font>
+        </TextArea>
+    </children>
+</VBox>
