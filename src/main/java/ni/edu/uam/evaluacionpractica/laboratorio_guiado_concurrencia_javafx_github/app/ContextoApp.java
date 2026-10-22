@@ -1,13 +1,12 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.app;
 
 import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.Contador;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.ContadorCompartido;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.repositorio.RepositorioSolicitudesMemoria;
 import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.servicio.ServicioSolicitudes;
 import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.tareas.GestorVentanillas;
 import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.util.RegistroEventos;
 import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.vista.ActualizadorPeriodico;
-
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.ContadorCompartido;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.repositorio.RepositorioSolicitudesMemoria;
 
 public record ContextoApp(ServicioSolicitudes servicio, Contador contador,
                           RegistroEventos registro, GestorVentanillas gestor,

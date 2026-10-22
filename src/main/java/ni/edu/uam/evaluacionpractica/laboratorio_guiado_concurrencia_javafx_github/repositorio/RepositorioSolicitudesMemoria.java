@@ -1,9 +1,5 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.repositorio;
 
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.EstadoSolicitud;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.Prioridad;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.Solicitud;
-
 import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeSet;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.EstadoSolicitud;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.Prioridad;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.Solicitud;
 
 public class RepositorioSolicitudesMemoria implements RepositorioSolicitudes {
 

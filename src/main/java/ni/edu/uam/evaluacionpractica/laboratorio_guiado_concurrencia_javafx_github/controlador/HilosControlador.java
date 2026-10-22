@@ -1,12 +1,4 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.app.ContextoApp;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.EstadoSesion;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.tareas.GestorVentanillas;
-import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.tareas.MonitorEstadoHilo;
-
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,8 +7,14 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.app.ContextoApp;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.modelo.EstadoSesion;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.tareas.GestorVentanillas;
+import ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.tareas.MonitorEstadoHilo;
 
-/** Módulo de observación de hilos. Archivo: /vista/hilos.fxml */
 public class HilosControlador {
 
     private static final long INTERVALO_MONITOR_MS = 50;
@@ -26,11 +24,9 @@ public class HilosControlador {
     @FXML private Label lblHiloB;
     @FXML private TextArea areaHistorialEstados;
 
-    // Escritos por hilos de fondo (monitores), leídos por el hilo JavaFX.
     private final Queue<String> historialPendiente = new ConcurrentLinkedQueue<>();
     private final Map<String, Thread.State> ultimoEstado = new ConcurrentHashMap<>();
 
-    // Monitores de la sesión actual (se accede con synchronized).
     private final List<MonitorEstadoHilo> monitores = new ArrayList<>();
     private final List<Thread> hilosMonitor = new ArrayList<>();
 
@@ -38,7 +34,6 @@ public class HilosControlador {
         areaHistorialEstados.setEditable(false);
         GestorVentanillas gestor = contexto.gestor();
 
-        // EJECUTANDO llega desde el hilo JavaFX, DESPUÉS de arrancar los hilos.
         gestor.agregarOyenteEstado(estado -> {
             if (estado == EstadoSesion.EJECUTANDO) {
                 iniciarMonitores(gestor);
@@ -49,7 +44,7 @@ public class HilosControlador {
     }
 
     private synchronized void iniciarMonitores(GestorVentanillas gestor) {
-        detenerMonitores();               // limpia los monitores de la sesión anterior
+        detenerMonitores();
         ultimoEstado.clear();
         historialPendiente.add("---- Nueva sesión ----");
 
@@ -63,7 +58,7 @@ public class HilosControlador {
         }
         MonitorEstadoHilo monitor = new MonitorEstadoHilo(objetivo, INTERVALO_MONITOR_MS,
                 (nombre, estado) -> {
-                    // Hilo de fondo: NO toca controles ni usa Platform.runLater.
+
                     ultimoEstado.put(nombre, estado);
                     historialPendiente.add(LocalTime.now().format(HORA) + "  "
                             + nombre + " -> " + estado);
@@ -75,7 +70,6 @@ public class HilosControlador {
         hilo.start();
     }
 
-    /** Tarea del ActualizadorPeriodico (hilo JavaFX). */
     public void refrescarVista() {
         StringBuilder nuevo = new StringBuilder();
         String linea;
@@ -94,13 +88,12 @@ public class HilosControlador {
         return estado == null ? "Sin iniciar" : estado.name();
     }
 
-    /** Lo llama PrincipalControlador.cerrar(). No bloquea. */
     public synchronized void detenerMonitores() {
         for (MonitorEstadoHilo monitor : monitores) {
             monitor.detener();
         }
         for (Thread hilo : hilosMonitor) {
-            hilo.interrupt();             // despierta el sleep() para que termine ya
+            hilo.interrupt();
         }
         monitores.clear();
         hilosMonitor.clear();

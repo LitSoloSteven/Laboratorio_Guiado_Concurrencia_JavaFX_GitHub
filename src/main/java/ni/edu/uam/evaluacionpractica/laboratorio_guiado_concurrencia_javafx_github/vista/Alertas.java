@@ -1,14 +1,12 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.vista;
 
+import java.util.Optional;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
-import java.util.Optional;
-
-/** Único punto de creación de Alert en toda la aplicación. */
 public final class Alertas {
 
     private static volatile Window propietario;
@@ -41,7 +39,6 @@ public final class Alertas {
         mostrar(Alert.AlertType.ERROR, titulo, detalle);
     }
 
-    /** SOLO desde el hilo JavaFX. Devuelve true si el usuario acepta. */
     public static boolean confirmar(String titulo, String mensaje) {
         if (!Platform.isFxApplicationThread()) {
             throw new IllegalStateException(
@@ -58,8 +55,6 @@ public final class Alertas {
     public static void establecerPropietario(Window ventana) {
         propietario = ventana;
     }
-
-    // auxiliares privados
 
     private static void mostrar(Alert.AlertType tipo, String titulo, String mensaje) {
         Platform.runLater(() -> crear(tipo, titulo, mensaje).showAndWait());

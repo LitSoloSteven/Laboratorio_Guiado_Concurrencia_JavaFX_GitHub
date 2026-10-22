@@ -1,11 +1,11 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.vista;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class ActualizadorPeriodico {
     public static final long INTERVALO_POR_DEFECTO_MS = 250;

@@ -3,7 +3,6 @@ package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_git
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-/** Estación 2. Consulta getState() cada 'intervaloMs' sin bloquear el hilo gráfico. */
 public class MonitorEstadoHilo implements Runnable {
 
     private final Thread objetivo;
@@ -36,7 +35,7 @@ public class MonitorEstadoHilo implements Runnable {
             try {
                 Thread.sleep(intervaloMs);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();   // nunca se ignora
+                Thread.currentThread().interrupt();
                 return;
             }
         }

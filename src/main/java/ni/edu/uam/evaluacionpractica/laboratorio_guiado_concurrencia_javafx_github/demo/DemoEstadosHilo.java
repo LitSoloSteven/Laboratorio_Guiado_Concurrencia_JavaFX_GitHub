@@ -1,7 +1,5 @@
 package ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.demo;
 
-
-/** Evidencia de NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING y TERMINATED. */
 public class DemoEstadosHilo {
 
     public static void main(String[] args) {
@@ -15,7 +13,6 @@ public class DemoEstadosHilo {
         observarWaiting();
     }
 
-    /** NEW -> RUNNABLE / TIMED_WAITING -> TERMINATED */
     static void observarCicloBasico() {
         Thread hilo = new Thread(() -> dormir(400), "Hilo-Basico");
 
@@ -30,7 +27,6 @@ public class DemoEstadosHilo {
         System.out.println("Después del join():   " + hilo.getState());
     }
 
-    /** Experimento con sleep(): el hilo observado pasa a TIMED_WAITING. */
     static void observarTimedWaiting() {
         Thread hilo = new Thread(() -> dormir(1000), "Hilo-Dormilon");
 
@@ -44,13 +40,12 @@ public class DemoEstadosHilo {
         esperar(hilo);
     }
 
-    /** Dos hilos compitiendo por un monitor: el segundo queda BLOCKED. */
     static void observarBlocked() {
         final Object candado = new Object();
 
         Thread dueno = new Thread(() -> {
             synchronized (candado) {
-                dormir(1500);          // retiene el candado mientras duerme
+                dormir(1500);
             }
         }, "Hilo-Dueno");
 
@@ -63,7 +58,7 @@ public class DemoEstadosHilo {
         System.out.println("PREDICCIÓN: Hilo-Dueno estará TIMED_WAITING (durmiendo con el candado) "
                 + "y Hilo-Bloqueado estará BLOCKED.");
         dueno.start();
-        dormir(200);                    // asegura que el dueño tome el candado primero
+        dormir(200);
         bloqueado.start();
         dormir(300);
         System.out.println("Hilo-Dueno:     " + dueno.getState());
@@ -73,7 +68,6 @@ public class DemoEstadosHilo {
         System.out.println("Al final: " + dueno.getState() + " / " + bloqueado.getState());
     }
 
-    /** wait() y join() sin tiempo: el hilo queda WAITING. */
     static void observarWaiting() {
         final Object candado = new Object();
         final boolean[] listo = {false};
@@ -82,7 +76,7 @@ public class DemoEstadosHilo {
             synchronized (candado) {
                 while (!listo[0]) {
                     try {
-                        candado.wait();             // sin tiempo -> WAITING
+                        candado.wait();
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         return;
@@ -102,7 +96,6 @@ public class DemoEstadosHilo {
         esperar(esperador);
         System.out.println("Hilo-Esperador al final:    " + esperador.getState());
 
-        // Variante con join() sin tiempo
         Thread largo = new Thread(() -> dormir(800), "Hilo-Largo");
         Thread quienEspera = new Thread(() -> esperar(largo), "Hilo-Join");
         largo.start();
@@ -112,8 +105,6 @@ public class DemoEstadosHilo {
         esperar(quienEspera);
         esperar(largo);
     }
-
-    // ---------- auxiliares ----------
 
     private static void dormir(long ms) {
         try {

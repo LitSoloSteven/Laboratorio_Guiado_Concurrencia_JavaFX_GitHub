@@ -82,17 +82,10 @@ JavaFX no se instala como SDK aparte. Se declara como dependencia de Maven y el 
 ### Comandos
 
 ```bash
-# Clonar
 git clone <URL-DEL-REPOSITORIO>
 cd <carpeta-del-repositorio>
-
-# Compilar
 mvn clean compile
-
-# Ejecutar la aplicación JavaFX
 mvn clean javafx:run
-
-# Ejecutar pruebas unitarias (si el equipo las agrega)
 mvn test
 ```
 
@@ -237,11 +230,10 @@ Tipos de contrato (enums, record, interfaz): los escribe **completos el líder**
 ```java
 package modelo;
 
-/** Inmutable: es seguro compartir una instancia entre hilos. Los cambios producen una instancia nueva. */
 public record Solicitud(int id, String solicitante, String asunto, Prioridad prioridad,
                         EstadoSolicitud estado, String atendidaPor, LocalDateTime creadaEn) {
     public static Solicitud nueva(String solicitante, String asunto, Prioridad prioridad);
-        // id = 0, estado PENDIENTE, atendidaPor = null, creadaEn = ahora
+
     public Solicitud conId(int id);
     public Solicitud conDatos(String solicitante, String asunto, Prioridad prioridad);
     public Solicitud conEstado(EstadoSolicitud estado, String atendidaPor);
@@ -261,15 +253,15 @@ public enum EstadoSesion {
     EN_ESPERA("En espera"),
     EJECUTANDO("Ejecutando"),
     DETENIENDO("Deteniendo"),
-    DETENIDO("Detenido"),      // los hilos terminaron porque el usuario pidió detener
-    FINALIZADO("Finalizado");  // los hilos terminaron solos: no quedan solicitudes pendientes
+    DETENIDO("Detenido"),
+    FINALIZADO("Finalizado");
     public String getEtiqueta();
 }
 
 public interface Contador {
     void incrementar();
     int getTotal();
-    void reiniciar();          // vuelve el total a 0 (nueva sesión)
+    void reiniciar();
 }
 ```
 
@@ -280,21 +272,18 @@ Implementaciones de los contadores. **Responsable: integrante 3.**
 ```java
 package modelo;
 
-/** SIN protección. Existe solo para evidenciar la condición de carrera. */
 public class ContadorInseguro implements Contador {
-    @Override public void incrementar();   // total++ sin sincronizar
+    @Override public void incrementar();
     @Override public int getTotal();
     @Override public void reiniciar();
 }
 
-/** Versión corregida con synchronized (incrementar, getTotal y reiniciar). Es la que usa la aplicación. */
 public class ContadorCompartido implements Contador {
     @Override public synchronized void incrementar();
     @Override public synchronized int getTotal();
     @Override public synchronized void reiniciar();
 }
 
-/** Alternativa con AtomicInteger, para comparar con synchronized. */
 public class ContadorAtomico implements Contador {
     @Override public void incrementar();
     @Override public int getTotal();
@@ -307,39 +296,34 @@ public class ContadorAtomico implements Contador {
 ```java
 package repositorio;
 
-/** Contrato escrito completo por el líder. */
 public enum ResultadoOperacion {
     OK,
     NO_ENCONTRADA,
-    BLOQUEADA    // la solicitud existe, pero su estado actual no permite la operación
+    BLOQUEADA
 }
 
-/** Contrato escrito completo por el líder. Todas las operaciones deben ser seguras entre hilos. */
 public interface RepositorioSolicitudes {
-    // ---- CRUD ----
-    Solicitud crear(Solicitud nueva);                      // asigna un id único creciente y la guarda como PENDIENTE
+
+    Solicitud crear(Solicitud nueva);
     Optional<Solicitud> buscarPorId(int id);
-    List<Solicitud> listar();                              // copia inmutable (snapshot) ordenada por id
-    ResultadoOperacion actualizar(Solicitud modificada);   // solo PENDIENTE; cambia solicitante, asunto y prioridad
-    ResultadoOperacion eliminar(int id);                   // permite PENDIENTE y ATENDIDA; BLOQUEADA si EN_PROCESO
+    List<Solicitud> listar();
+    ResultadoOperacion actualizar(Solicitud modificada);
+    ResultadoOperacion eliminar(int id);
     int contarPorEstado(EstadoSolicitud estado);
 
-    // ---- Operaciones atómicas para las ventanillas ----
     Optional<Solicitud> tomarSiguientePendiente(String ventanilla);
-        // elige y marca EN_PROCESO en un solo paso atómico: ALTA antes que MEDIA antes que BAJA; a igual prioridad, menor id.
-        // Dos ventanillas nunca reciben la misma solicitud. Optional.empty() si no hay pendientes.
-    boolean marcarAtendida(int id, String ventanilla);     // EN_PROCESO -> ATENDIDA (fija atendidaPor)
-    boolean devolverAPendiente(int id);                    // EN_PROCESO -> PENDIENTE (cancelación segura)
+
+    boolean marcarAtendida(int id, String ventanilla);
+    boolean devolverAPendiente(int id);
 }
 ```
 
 ```java
 package repositorio;
 
-/** Responsable: integrante 3. Almacenamiento en memoria protegido con synchronized o un Lock. */
 public class RepositorioSolicitudesMemoria implements RepositorioSolicitudes {
     public RepositorioSolicitudesMemoria();
-    // implementa todos los métodos de RepositorioSolicitudes
+
 }
 ```
 
@@ -348,7 +332,6 @@ public class RepositorioSolicitudesMemoria implements RepositorioSolicitudes {
 ```java
 package servicio;
 
-/** Contrato escrito completo por el líder. El mensaje está redactado para mostrarse tal cual en una alerta. */
 public class ReglaNegocioException extends RuntimeException {
     public ReglaNegocioException(String mensaje);
 }
@@ -357,7 +340,6 @@ public class ReglaNegocioException extends RuntimeException {
 ```java
 package servicio;
 
-/** Responsable: integrante 1. Valida, aplica las reglas del CRUD y traduce ResultadoOperacion a excepciones. */
 public class ServicioSolicitudes {
     public static final int MAX_LONGITUD_SOLICITANTE = 40;
     public static final int MAX_LONGITUD_ASUNTO = 80;
@@ -371,7 +353,7 @@ public class ServicioSolicitudes {
     public Solicitud actualizar(int id, String solicitante, String asunto, Prioridad prioridad);
     public void eliminar(int id);
     public int contar(EstadoSolicitud estado);
-    public int cargarEjemplos(int cantidad);   // crea 'cantidad' solicitudes de prueba; devuelve cuántas creó
+    public int cargarEjemplos(int cantidad);
 }
 ```
 
@@ -382,17 +364,15 @@ Todos los métodos lanzan `ReglaNegocioException` con un mensaje claro cuando se
 ```java
 package tareas;
 
-/** Estación 1. Responsable: integrante 1. Hilo finito: 5 iteraciones con sleep(500). */
 public class ProcesoVentanilla implements Runnable {
     public ProcesoVentanilla(String nombre);
-    @Override public void run();   // revisa isInterrupted(); ante InterruptedException restaura la bandera y retorna
+    @Override public void run();
 }
 ```
 
 ```java
 package tareas;
 
-/** Estación 3. Responsable: integrante 3. Invoca contador.incrementar() 'repeticiones' veces. */
 public class TareaIncremento implements Runnable {
     public TareaIncremento(Contador contador, int repeticiones);
     @Override public void run();
@@ -402,12 +382,10 @@ public class TareaIncremento implements Runnable {
 ```java
 package tareas;
 
-/** Estación 2. Responsable: integrante 2. Consulta getState() cada 'intervaloMs' sin bloquear el hilo gráfico. */
 public class MonitorEstadoHilo implements Runnable {
     public MonitorEstadoHilo(Thread objetivo, long intervaloMs, BiConsumer<String, Thread.State> receptor);
-        // receptor.accept(nombreDelHilo, estado): se invoca desde un hilo de fondo, en la primera lectura
-        // y luego solo cuando el estado cambia respecto de la lectura anterior
-    @Override public void run();   // termina al emitir TERMINATED o al llamar a detener()
+
+    @Override public void run();
     public void detener();
 }
 ```
@@ -415,20 +393,15 @@ public class MonitorEstadoHilo implements Runnable {
 ```java
 package tareas;
 
-/** Estación 4. Responsable: integrante 4. Una ventanilla con cancelación cooperativa. */
 public class Ventanilla implements Runnable {
     public static final long TIEMPO_PROCESO_MS = 250;
 
     public Ventanilla(String nombre, RepositorioSolicitudes repositorio, Contador contador, Consumer<String> registro);
     @Override public void run();
-        // while (activo && !interrupted):
-        //   tomarSiguientePendiente(nombre); si no hay, termina sola.
-        //   sleep(TIEMPO_PROCESO_MS) simula el trabajo.
-        //   Si lo interrumpen durante el sleep: devolverAPendiente(id), restaura la bandera y sale.
-        //   Si termina bien: marcarAtendida(id, nombre), contador.incrementar(), registro.accept(...).
-    public void detener();         // activo = false (campo volatile). No bloquea
+
+    public void detener();
     public String getNombre();
-    public int getAtendidas();     // solicitudes atendidas por esta ventanilla en la sesión
+    public int getAtendidas();
 }
 ```
 
@@ -437,7 +410,6 @@ public class Ventanilla implements Runnable {
 ```java
 package tareas;
 
-/** Estaciones 4 y 5. Responsable: integrante 4. Ciclo de vida de las dos ventanillas. Sin dependencias de JavaFX. */
 public class GestorVentanillas {
     public static final String NOMBRE_VENTANILLA_A = "Ventanilla-A";
     public static final String NOMBRE_VENTANILLA_B = "Ventanilla-B";
@@ -446,18 +418,14 @@ public class GestorVentanillas {
     public GestorVentanillas(RepositorioSolicitudes repositorio, Contador contador, Consumer<String> registro);
 
     public void agregarOyenteEstado(Consumer<EstadoSesion> oyente);
-        // Se notifica tras cada cambio de estado. EJECUTANDO y DETENIENDO llegan desde el hilo que llamó a
-        // iniciar() o detener() (el hilo JavaFX); DETENIDO y FINALIZADO llegan desde Supervisor-Sesion.
-        // EJECUTANDO se notifica DESPUÉS de arrancar los hilos, así getHiloA() y getHiloB() ya no son null.
-        // Quien reciba el aviso y toque controles debe usar Platform.runLater.
 
-    public void iniciar();            // reinicia el contador, crea y arranca los hilos y el supervisor. No bloquea.
-                                      // Lanza IllegalStateException si !puedeIniciar()
-    public void detener();            // pasa a DETENIENDO, llama a detener() e interrupt() en cada ventanilla. No bloquea
-    public boolean puedeIniciar();    // true solo si el estado no es EJECUTANDO ni DETENIENDO y no hay hilos vivos
+    public void iniciar();
+
+    public void detener();
+    public boolean puedeIniciar();
     public boolean hayHilosVivos();
     public EstadoSesion getEstado();
-    public Thread getHiloA();         // hilo de la sesión actual (null antes del primer inicio)
+    public Thread getHiloA();
     public Thread getHiloB();
     public int getAtendidasA();
     public int getAtendidasB();
@@ -471,11 +439,10 @@ El hilo `Supervisor-Sesion` hace `join()` de ambas ventanillas **fuera del hilo 
 ```java
 package util;
 
-/** Responsable: integrante 3. Cola de mensajes segura entre hilos (p. ej. ConcurrentLinkedQueue). */
 public class RegistroEventos {
     public RegistroEventos();
-    public void publicar(String mensaje);   // lo llaman los hilos de fondo
-    public List<String> vaciar();           // devuelve y elimina lo acumulado; lo llama el hilo JavaFX en cada ciclo
+    public void publicar(String mensaje);
+    public List<String> vaciar();
 }
 ```
 
@@ -484,36 +451,30 @@ public class RegistroEventos {
 ```java
 package vista;
 
-/** Responsable: integrante 2. Único punto de creación de Alert en toda la aplicación. */
 public final class Alertas {
     private Alertas();
 
-    public static void informacion(String titulo, String mensaje);   // Alert.AlertType.INFORMATION
-    public static void advertencia(String titulo, String mensaje);   // Alert.AlertType.WARNING
-    public static void error(String titulo, String mensaje);         // Alert.AlertType.ERROR
-    public static void error(String titulo, Throwable causa);        // muestra el mensaje y la causa
-        // informacion, advertencia y error se pueden llamar desde CUALQUIER hilo: internamente usan
-        // Platform.runLater y showAndWait. No devuelven valor.
+    public static void informacion(String titulo, String mensaje);
+    public static void advertencia(String titulo, String mensaje);
+    public static void error(String titulo, String mensaje);
+    public static void error(String titulo, Throwable causa);
 
     public static boolean confirmar(String titulo, String mensaje);
-        // Alert.AlertType.CONFIRMATION con botones "Aceptar" y "Cancelar". Devuelve true si se acepta.
-        // SOLO desde el hilo JavaFX (manejador de evento). Lanza IllegalStateException desde otro hilo.
 
-    public static void establecerPropietario(Window ventana);        // centra las alertas sobre la ventana principal
+    public static void establecerPropietario(Window ventana);
 }
 ```
 
 ```java
 package vista;
 
-/** Responsable: integrante 4. Reto de la Estación 5: agrupa las actualizaciones visuales en un solo temporizador. */
 public class ActualizadorPeriodico {
     public static final long INTERVALO_POR_DEFECTO_MS = 250;
 
     public ActualizadorPeriodico(long intervaloMs);
-    public void agregarTarea(Runnable tarea);   // se ejecuta en el hilo JavaFX, en orden de registro; debe ser rápida
-    public void iniciar();                      // Timeline indefinido
-    public void detener();                      // ejecuta un último ciclo y detiene el Timeline
+    public void agregarTarea(Runnable tarea);
+    public void iniciar();
+    public void detener();
 }
 ```
 
@@ -526,9 +487,8 @@ Cada controlador es un módulo independiente con su propio FXML. Todos exponen `
 ```java
 package controlador;
 
-/** Responsable: integrante 1. Módulo CRUD. Archivo: /vista/solicitudes.fxml */
 public class SolicitudesControlador {
-    // fx:id del FXML
+
     @FXML private TextField txtSolicitante;
     @FXML private TextField txtAsunto;
     @FXML private ComboBox<Prioridad> cmbPrioridad;
@@ -536,67 +496,64 @@ public class SolicitudesControlador {
     @FXML private TableView<Solicitud> tblSolicitudes;
     @FXML private TableColumn<Solicitud, Number> colId;
     @FXML private TableColumn<Solicitud, String> colSolicitante, colAsunto, colPrioridad, colEstado, colAtendidaPor;
-    @FXML private Label lblResumen;      // "Pendientes: x · En proceso: y · Atendidas: z"
+    @FXML private Label lblResumen;
 
-    public void inicializar(ContextoApp contexto);   // registra refrescarTabla() en el ActualizadorPeriodico
+    public void inicializar(ContextoApp contexto);
     @FXML private void onCrear();
-    @FXML private void onActualizar();               // usa la fila seleccionada
-    @FXML private void onEliminar();                 // pide confirmación con Alertas.confirmar
+    @FXML private void onActualizar();
+    @FXML private void onEliminar();
     @FXML private void onLimpiar();
     @FXML private void onCargarEjemplos();
-    public void refrescarTabla();                    // relee servicio.listar() y conserva la fila seleccionada por id
+    public void refrescarTabla();
 }
 ```
 
 ```java
 package controlador;
 
-/** Responsable: integrante 4. Módulo de control de la sesión. Archivo: /vista/ventanillas.fxml */
 public class VentanillasControlador {
     @FXML private Button btnIniciar;
     @FXML private Button btnDetener;
-    @FXML private Label lblEstado;        // EstadoSesion.getEtiqueta()
+    @FXML private Label lblEstado;
     @FXML private Label lblContador;
     @FXML private Label lblAtendidasA;
     @FXML private Label lblAtendidasB;
     @FXML private TextArea areaRegistro;
 
-    public void inicializar(ContextoApp contexto);   // se suscribe con gestor.agregarOyenteEstado(...)
-    @FXML private void onIniciar();                  // advierte si no hay pendientes; no usa join() ni sleep()
+    public void inicializar(ContextoApp contexto);
+    @FXML private void onIniciar();
     @FXML private void onDetener();
-    public void refrescarVista();                    // vacía RegistroEventos y actualiza etiquetas (tarea del ActualizadorPeriodico)
-    public boolean haySesionActiva();                // true si EJECUTANDO o DETENIENDO
+    public void refrescarVista();
+    public boolean haySesionActiva();
 }
 ```
 
 ```java
 package controlador;
 
-/** Responsable: integrante 2. Módulo de observación de hilos. Archivo: /vista/hilos.fxml */
 public class HilosControlador {
-    @FXML private Label lblHiloA;                    // último estado de Ventanilla-A (Thread.State)
+    @FXML private Label lblHiloA;
     @FXML private Label lblHiloB;
-    @FXML private TextArea areaHistorialEstados;     // transiciones observadas, con hora
+    @FXML private TextArea areaHistorialEstados;
 
-    public void inicializar(ContextoApp contexto);   // al llegar EJECUTANDO crea un MonitorEstadoHilo por ventanilla
-    public void refrescarVista();                    // tarea del ActualizadorPeriodico
-    public void detenerMonitores();                  // lo llama PrincipalControlador.cerrar()
+    public void inicializar(ContextoApp contexto);
+    public void refrescarVista();
+    public void detenerMonitores();
 }
 ```
 
 ```java
 package controlador;
 
-/** Responsable: integrante 4. Contenedor de los módulos. Archivo: /vista/principal.fxml */
 public class PrincipalControlador {
     @FXML private TabPane tabPane;
-    @FXML private SolicitudesControlador solicitudesController;    // de <fx:include fx:id="solicitudes" .../>
-    @FXML private VentanillasControlador ventanillasController;    // de <fx:include fx:id="ventanillas" .../>
-    @FXML private HilosControlador hilosController;                // de <fx:include fx:id="hilos" .../>
+    @FXML private SolicitudesControlador solicitudesController;
+    @FXML private VentanillasControlador ventanillasController;
+    @FXML private HilosControlador hilosController;
 
-    public void inicializar(ContextoApp contexto);   // inicializa los tres módulos e inicia el ActualizadorPeriodico
-    public boolean confirmarCierre();                // si hay sesión activa pide confirmación con Alertas.confirmar
-    public void cerrar();                            // pide detener, detiene monitores y actualizador sin bloquear
+    public void inicializar(ContextoApp contexto);
+    public boolean confirmarCierre();
+    public void cerrar();
 }
 ```
 
@@ -605,27 +562,23 @@ public class PrincipalControlador {
 ```java
 package app;
 
-/** Contrato escrito completo por el líder. Contenedor de dependencias compartidas por los controladores. */
 public record ContextoApp(ServicioSolicitudes servicio,
                           Contador contador,
                           RegistroEventos registro,
                           GestorVentanillas gestor,
                           ActualizadorPeriodico actualizador) {
     public static ContextoApp crear();
-        // arma: RepositorioSolicitudesMemoria, ServicioSolicitudes, ContadorCompartido, RegistroEventos,
-        // GestorVentanillas(repositorio, contador, registro::publicar) y ActualizadorPeriodico(INTERVALO_POR_DEFECTO_MS)
+
 }
 ```
 
 ```java
 package app;
 
-/** Responsable: integrante 4. Punto de entrada JavaFX. */
 public class Main extends Application {
     @Override public void start(Stage escenario) throws Exception;
-        // ContextoApp.crear(); carga /vista/principal.fxml; PrincipalControlador.inicializar(contexto);
-        // Alertas.establecerPropietario(escenario); setOnCloseRequest -> consume el evento si !confirmarCierre()
-    @Override public void stop();    // PrincipalControlador.cerrar(); no bloquea
+
+    @Override public void stop();
     public static void main(String[] args);
 }
 ```
@@ -637,34 +590,30 @@ Demostraciones por consola, una por estación, cada una con su `main`. No usan J
 ```java
 package demo;
 
-/** Responsable: integrante 1. Compara start() contra run() directo. */
 public class DemoThreadRunnable {
     public static void main(String[] args);
-    static void ejecutarConStart();         // dos Thread con Runnable distinto, imprime nombre de hilo
-    static void ejecutarConRunDirecto();    // llama run() sin hilo nuevo: todo ocurre en "main"
+    static void ejecutarConStart();
+    static void ejecutarConRunDirecto();
 }
 
-/** Responsable: integrante 2. Evidencia de NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING y TERMINATED. */
 public class DemoEstadosHilo {
     public static void main(String[] args);
-    static void observarCicloBasico();      // NEW -> RUNNABLE / TIMED_WAITING -> TERMINATED
-    static void observarTimedWaiting();     // experimento con sleep()
-    static void observarBlocked();          // dos hilos compitiendo por un monitor
-    static void observarWaiting();          // wait() o join() sin tiempo
+    static void observarCicloBasico();
+    static void observarTimedWaiting();
+    static void observarBlocked();
+    static void observarWaiting();
 }
 
-/** Responsable: integrante 3. Repite la prueba de 2 x 1000 incrementos. */
 public class DemoCondicionCarrera {
-    public static void main(String[] args);   // 10 repeticiones por cada implementación de Contador
+    public static void main(String[] args);
     static int ejecutarPrueba(Contador contador, int repeticionesPorHilo) throws InterruptedException;
-        // dos hilos con TareaIncremento, start(), join() y devuelve getTotal()
+
     static void repetirPrueba(String titulo, Supplier<Contador> fabrica, int veces) throws InterruptedException;
 }
 
-/** Responsable: integrante 3. Dos hilos toman solicitudes del repositorio: ninguna se atiende dos veces. */
 public class DemoRepositorioConcurrente {
     public static void main(String[] args);
-    static void ejecutar(int cantidadSolicitudes) throws InterruptedException;   // verifica que no haya ids duplicados
+    static void ejecutar(int cantidadSolicitudes) throws InterruptedException;
 }
 ```
 
@@ -801,8 +750,7 @@ Cada archivo tiene **un único dueño**. Nadie edita archivos de otro integrante
    ```bash
    git checkout main
    git pull origin main
-   git checkout -b feature/integrante-N      # N = 1, 2, 3 o 4
-   # ... trabajo y commits ...
+   git checkout -b feature/integrante-N
    git push -u origin feature/integrante-N
    ```
 
