@@ -34,7 +34,7 @@ Aplicación JavaFX modular que gestiona **solicitudes de una oficina mediante un
 |---|-----------------|-------------------|-----|------|-----------------|
 | 1 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-1` | Estación 1 (Thread y Runnable) y módulo CRUD de solicitudes (servicio y pantalla) |
 | 2 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-2` | Estación 2 (estados de hilos), módulo de monitoreo de hilos y alertas |
-| 3 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-3` | Estación 3 (sincronización): contadores y repositorio concurrente |
+| 3 | _Steven Cuadra_ | _LitSoloSteven_ | _Integrante_ | `feature/Steven` | Estación 3 (sincronización): contadores y repositorio concurrente |
 | 4 | _[completar]_ | _[completar]_ | _[Líder / Integrante]_ | `feature/integrante-4` | Estaciones 4 y 5: detención controlada, ventanillas e integración JavaFX |
 
 El **líder** (uno de los cuatro, marcar en la tabla) coordina tareas, verifica que el proyecto compile, revisa los Pull Requests, resuelve conflictos y es **la única persona autorizada para integrar cambios en `main`**. El liderazgo no exime de programar ni de aportar commits.
