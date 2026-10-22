@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador.HilosControlador">
+    <padding>
+        <Insets top="12" right="12" bottom="12" left="12"/>
+    </padding>
+
+    <Label text="Estado de los hilos de las ventanillas (Thread.State)"
+           style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+    <HBox spacing="8">
+        <Label text="Ventanilla-A:" minWidth="100"/>
+        <Label fx:id="lblHiloA" text="Sin iniciar"/>
+    </HBox>
+
+    <HBox spacing="8">
+        <Label text="Ventanilla-B:" minWidth="100"/>
+        <Label fx:id="lblHiloB" text="Sin iniciar"/>
+    </HBox>
+
+    <Label text="Historial de transiciones observadas:"/>
+    <TextArea fx:id="areaHistorialEstados" editable="false" wrapText="true"
+              VBox.vgrow="ALWAYS"/>
+</VBox>
