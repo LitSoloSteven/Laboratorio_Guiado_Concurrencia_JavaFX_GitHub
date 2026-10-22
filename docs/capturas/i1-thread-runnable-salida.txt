@@ -1,0 +1,93 @@
+EJECUCION 1
+=== DEMOSTRACIÓN CON RUN() DIRECTO (SECUENCIAL) ===
+[main] Iniciando tarea: Ventanilla-A
+[main] Ventanilla-A procesando paso 1/5
+[main] Ventanilla-A procesando paso 2/5
+[main] Ventanilla-A procesando paso 3/5
+[main] Ventanilla-A procesando paso 4/5
+[main] Ventanilla-A procesando paso 5/5
+[main] Ventanilla-A finalizó correctamente.
+[main] Iniciando tarea: Ventanilla-B
+[main] Ventanilla-B procesando paso 1/5
+[main] Ventanilla-B procesando paso 2/5
+[main] Ventanilla-B procesando paso 3/5
+[main] Ventanilla-B procesando paso 4/5
+[main] Ventanilla-B procesando paso 5/5
+[main] Ventanilla-B finalizó correctamente.
+=== DEMOSTRACIÓN CON START() (CONCURRENTE) ===
+[Ventanilla-A] Iniciando tarea: Ventanilla-A
+[Ventanilla-A] Ventanilla-A procesando paso 1/5
+[Ventanilla-B] Iniciando tarea: Ventanilla-B
+[Ventanilla-B] Ventanilla-B procesando paso 1/5
+[Ventanilla-A] Ventanilla-A procesando paso 2/5
+[Ventanilla-B] Ventanilla-B procesando paso 2/5
+[Ventanilla-A] Ventanilla-A procesando paso 3/5
+[Ventanilla-B] Ventanilla-B procesando paso 3/5
+[Ventanilla-B] Ventanilla-B procesando paso 4/5
+[Ventanilla-A] Ventanilla-A procesando paso 4/5
+[Ventanilla-A] Ventanilla-A procesando paso 5/5
+[Ventanilla-B] Ventanilla-B procesando paso 5/5
+[Ventanilla-B] Ventanilla-B finalizó correctamente.
+[Ventanilla-A] Ventanilla-A finalizó correctamente.
+EJECUCION 2
+=== DEMOSTRACIÓN CON RUN() DIRECTO (SECUENCIAL) ===
+[main] Iniciando tarea: Ventanilla-A
+[main] Ventanilla-A procesando paso 1/5
+[main] Ventanilla-A procesando paso 2/5
+[main] Ventanilla-A procesando paso 3/5
+[main] Ventanilla-A procesando paso 4/5
+[main] Ventanilla-A procesando paso 5/5
+[main] Ventanilla-A finalizó correctamente.
+[main] Iniciando tarea: Ventanilla-B
+[main] Ventanilla-B procesando paso 1/5
+[main] Ventanilla-B procesando paso 2/5
+[main] Ventanilla-B procesando paso 3/5
+[main] Ventanilla-B procesando paso 4/5
+[main] Ventanilla-B procesando paso 5/5
+[main] Ventanilla-B finalizó correctamente.
+=== DEMOSTRACIÓN CON START() (CONCURRENTE) ===
+[Ventanilla-A] Iniciando tarea: Ventanilla-A
+[Ventanilla-A] Ventanilla-A procesando paso 1/5
+[Ventanilla-B] Iniciando tarea: Ventanilla-B
+[Ventanilla-B] Ventanilla-B procesando paso 1/5
+[Ventanilla-B] Ventanilla-B procesando paso 2/5
+[Ventanilla-A] Ventanilla-A procesando paso 2/5
+[Ventanilla-B] Ventanilla-B procesando paso 3/5
+[Ventanilla-A] Ventanilla-A procesando paso 3/5
+[Ventanilla-A] Ventanilla-A procesando paso 4/5
+[Ventanilla-B] Ventanilla-B procesando paso 4/5
+[Ventanilla-B] Ventanilla-B procesando paso 5/5
+[Ventanilla-A] Ventanilla-A procesando paso 5/5
+[Ventanilla-B] Ventanilla-B finalizó correctamente.
+[Ventanilla-A] Ventanilla-A finalizó correctamente.
+EJECUCION 3
+=== DEMOSTRACIÓN CON RUN() DIRECTO (SECUENCIAL) ===
+[main] Iniciando tarea: Ventanilla-A
+[main] Ventanilla-A procesando paso 1/5
+[main] Ventanilla-A procesando paso 2/5
+[main] Ventanilla-A procesando paso 3/5
+[main] Ventanilla-A procesando paso 4/5
+[main] Ventanilla-A procesando paso 5/5
+[main] Ventanilla-A finalizó correctamente.
+[main] Iniciando tarea: Ventanilla-B
+[main] Ventanilla-B procesando paso 1/5
+[main] Ventanilla-B procesando paso 2/5
+[main] Ventanilla-B procesando paso 3/5
+[main] Ventanilla-B procesando paso 4/5
+[main] Ventanilla-B procesando paso 5/5
+[main] Ventanilla-B finalizó correctamente.
+=== DEMOSTRACIÓN CON START() (CONCURRENTE) ===
+[Ventanilla-B] Iniciando tarea: Ventanilla-B
+[Ventanilla-A] Iniciando tarea: Ventanilla-A
+[Ventanilla-B] Ventanilla-B procesando paso 1/5
+[Ventanilla-A] Ventanilla-A procesando paso 1/5
+[Ventanilla-B] Ventanilla-B procesando paso 2/5
+[Ventanilla-A] Ventanilla-A procesando paso 2/5
+[Ventanilla-B] Ventanilla-B procesando paso 3/5
+[Ventanilla-A] Ventanilla-A procesando paso 3/5
+[Ventanilla-A] Ventanilla-A procesando paso 4/5
+[Ventanilla-B] Ventanilla-B procesando paso 4/5
+[Ventanilla-A] Ventanilla-A procesando paso 5/5
+[Ventanilla-B] Ventanilla-B procesando paso 5/5
+[Ventanilla-B] Ventanilla-B finalizó correctamente.
+[Ventanilla-A] Ventanilla-A finalizó correctamente.

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador.PrincipalControlador">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ni.edu.uam.evaluacionpractica.laboratorio_guiado_concurrencia_javafx_github.controlador.PrincipalControlador">
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="Ventanillas (Concurrencia)">
+                    <content>
+                        <fx:include source="ventanillas.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="Monitor de Hilos">
+                    <content>
+                        <fx:include source="hilos.fxml" />
+                    </content>
+                </Tab>
+                <Tab text="Solicitudes">
+                    <content>
+                        <fx:include source="solicitudes.fxml" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
