@@ -33,3 +33,13 @@ public class MonitorEstadoHilo implements Runnable {
             if (estadoActual == Thread.State.TERMINATED) {
                 break;
             }
+
+            try {
+                Thread.sleep(50); // Consulta frecuente para capturar transiciones rápidas
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+}
