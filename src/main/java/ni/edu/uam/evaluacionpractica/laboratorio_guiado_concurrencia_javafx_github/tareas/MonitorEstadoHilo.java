@@ -42,8 +42,4 @@ public class MonitorEstadoHilo implements Runnable {
             }
         }
     }
-
-    public void detener() {
-        activo = false;
-    }
 }
